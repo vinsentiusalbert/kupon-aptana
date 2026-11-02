@@ -40,4 +40,19 @@ class AdminViewsTest extends TestCase
         $this->get('/payment-preview')->assertOk()->assertViewIs('payment-checkout.show');
         $this->get('/not-an-admin-menu')->assertNotFound();
     }
+
+    public function test_missing_public_assets_do_not_crash_the_blade_layout(): void
+    {
+        $originalPublicPath = public_path();
+        $this->app->usePublicPath(storage_path('framework/testing/missing-public-assets'));
+
+        try {
+            $this->get('/campaigns')
+                ->assertOk()
+                ->assertSee('src="'.asset('js/admin-app.js').'"', false)
+                ->assertSee('href="'.asset('css/admin.css').'"', false);
+        } finally {
+            $this->app->usePublicPath($originalPublicPath);
+        }
+    }
 }

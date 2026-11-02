@@ -5,7 +5,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{{ $title }} · MyAds</title>
         @foreach (['admin', 'refinements', 'tutorial'] as $stylesheet)
-        <link rel="stylesheet" href="{{ asset('css/'.$stylesheet.'.css') }}?v={{ filemtime(public_path('css/'.$stylesheet.'.css')) }}">
+            @php
+                $assetPath = 'css/'.$stylesheet.'.css';
+                $version = is_file(public_path($assetPath)) ? filemtime(public_path($assetPath)) : null;
+            @endphp
+        <link rel="stylesheet" href="{{ asset($assetPath).($version !== null ? '?v='.$version : '') }}">
         @endforeach
     </head>
     <body data-menu="{{ $menu }}" data-action="{{ $action }}" data-record-id="{{ $recordId ?? '' }}">
@@ -21,7 +25,11 @@
         @include('partials.tutorial')
         @stack('dialogs')
         @foreach (['admin-data', 'admin-app', 'ui', 'tutorial'] as $script)
-        <script src="{{ asset('js/'.$script.'.js') }}?v={{ filemtime(public_path('js/'.$script.'.js')) }}" defer></script>
+            @php
+                $assetPath = 'js/'.$script.'.js';
+                $version = is_file(public_path($assetPath)) ? filemtime(public_path($assetPath)) : null;
+            @endphp
+        <script src="{{ asset($assetPath).($version !== null ? '?v='.$version : '') }}" defer></script>
         @endforeach
     </body>
 </html>
