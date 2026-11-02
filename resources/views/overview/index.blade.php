@@ -2,53 +2,53 @@
 
 @section('content')
 <div class="page-heading">
-<div>
-<div class="eyebrow">WORKSPACE</div>
-<h1>Overview</h1>
-<p>Ringkasan overview Anda · data ilustrasi.</p>
-</div>
+    <div>
+        <div class="eyebrow">WORKSPACE</div>
+        <h1>Overview</h1>
+        <p>Ringkasan overview Anda · data ilustrasi.</p>
+    </div>
 </div>
 <div class="stats">
-<article>
-<span>Broadcast terkirim</span>
-<strong>24.850</strong>
-<p>Periode November 2026 · ilustrasi</p>
-</article>
-<article>
-<span>Pembayaran berhasil</span>
-<strong>18.420</strong>
-<p>Periode November 2026 · ilustrasi</p>
-</article>
-<article>
-<span>Kupon ditukarkan</span>
-<strong>8.264</strong>
-<p>Periode November 2026 · ilustrasi</p>
-</article>
-<article>
-<span>Conversion rate</span>
-<strong>74,1%</strong>
-<p>Periode November 2026 · ilustrasi</p>
-</article>
+    <article>
+        <span>Broadcast terkirim</span>
+        <strong>24.850</strong>
+        <p>Periode November 2026 · ilustrasi</p>
+    </article>
+    <article>
+        <span>Pembayaran berhasil</span>
+        <strong>18.420</strong>
+        <p>Periode November 2026 · ilustrasi</p>
+    </article>
+    <article>
+        <span>Kupon ditukarkan</span>
+        <strong>8.264</strong>
+        <p>Periode November 2026 · ilustrasi</p>
+    </article>
+    <article>
+        <span>Conversion rate</span>
+        <strong>74,1%</strong>
+        <p>Periode November 2026 · ilustrasi</p>
+    </article>
 </div>
 <div class="panel form-panel">
-<h2>Perjalanan pelanggan</h2>
-<p>Pesan terkirim <b style="float:right">24.850</b>
-</p>
-<div class="progress" style="width:100%;height:12px;margin-bottom:24px">
-<span style="width:100%">
-</span>
-</div>
-<p>Pembayaran berhasil <b style="float:right">18.420</b>
-</p>
-<div class="progress" style="width:100%;height:12px;margin-bottom:24px">
-<span style="width:74%">
-</span>
-</div>
-<p>Kupon ditukarkan <b style="float:right">8.264</b>
-</p>
-<div class="progress" style="width:100%;height:12px;margin-bottom:24px">
-<span style="width:33%">
-</span>
-</div>
+    <h2>Perjalanan pelanggan</h2>
+    <p>Pesan terkirim <b style="float:right">24.850</b>
+    </p>
+    <div class="progress" style="width:100%;height:12px;margin-bottom:24px">
+        <span style="width:100%">
+        </span>
+    </div>
+    <p>Pembayaran berhasil <b style="float:right">18.420</b>
+    </p>
+    <div class="progress" style="width:100%;height:12px;margin-bottom:24px">
+        <span style="width:74%">
+        </span>
+    </div>
+    <p>Kupon ditukarkan <b style="float:right">8.264</b>
+    </p>
+    <div class="progress" style="width:100%;height:12px;margin-bottom:24px">
+        <span style="width:33%">
+        </span>
+    </div>
 </div>
 @endsection

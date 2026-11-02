@@ -2,60 +2,60 @@
 
 @section('content')
 <div class="page-heading">
-<div>
-<div class="eyebrow">WORKSPACE</div>
-<h1>Transaksi pembayaran</h1>
-<p>Ringkasan transaksi pembayaran Anda · data ilustrasi.</p>
-</div>
+    <div>
+        <div class="eyebrow">WORKSPACE</div>
+        <h1>Transaksi pembayaran</h1>
+        <p>Ringkasan transaksi pembayaran Anda · data ilustrasi.</p>
+    </div>
 </div>
 <div class="panel form-panel">
-<h2>Pembayaran pelanggan</h2>
-<p>Midtrans · data transaksi ilustrasi</p>
-<div class="table-scroll">
-<table>
-<thead>
-<tr>
-<th>PELANGGAN</th>
-<th>TAGIHAN</th>
-<th>METODE</th>
-<th>STATUS</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Ardiansyah</td>
-<td>Rp395.000</td>
-<td>QRIS</td>
-<td>
-<span class="badge active-status">Berhasil</span>
-</td>
-</tr>
-<tr>
-<td>Dewi Putri</td>
-<td>Rp285.000</td>
-<td>GoPay</td>
-<td>
-<span class="badge active-status">Berhasil</span>
-</td>
-</tr>
-<tr>
-<td>Rizky Pratama</td>
-<td>Rp450.000</td>
-<td>Virtual account</td>
-<td>
-<span class="badge draft">Menunggu</span>
-</td>
-</tr>
-<tr>
-<td>Siti Rahma</td>
-<td>Rp330.000</td>
-<td>QRIS</td>
-<td>
-<span class="badge draft">Gagal</span>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
+    <h2>Pembayaran pelanggan</h2>
+    <p>Midtrans · data transaksi ilustrasi</p>
+    <div class="table-scroll">
+        <table>
+            <thead>
+                <tr>
+                    <th>PELANGGAN</th>
+                    <th>TAGIHAN</th>
+                    <th>METODE</th>
+                    <th>STATUS</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Ardiansyah</td>
+                    <td>Rp395.000</td>
+                    <td>QRIS</td>
+                    <td>
+                        <span class="badge active-status">Berhasil</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Dewi Putri</td>
+                    <td>Rp285.000</td>
+                    <td>GoPay</td>
+                    <td>
+                        <span class="badge active-status">Berhasil</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Rizky Pratama</td>
+                    <td>Rp450.000</td>
+                    <td>Virtual account</td>
+                    <td>
+                        <span class="badge draft">Menunggu</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Siti Rahma</td>
+                    <td>Rp330.000</td>
+                    <td>QRIS</td>
+                    <td>
+                        <span class="badge draft">Gagal</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 @endsection

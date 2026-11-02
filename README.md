@@ -1,47 +1,99 @@
-# MyAds — Campaign & Rewards Admin
+﻿# MyAds — Admin UI Laravel
 
-UI Laravel 12 / PHP 8.2 untuk alur campaign WhatsApp → pembayaran Midtrans → kupon dan reward.
+UI admin Laravel 12 / PHP 8.2 untuk pembayaran, template WhatsApp, template kupon, dan campaign IndiHome. Halaman menggunakan route Laravel dan Blade terpisah per menu.
 
-## Jalankan
-
-Dependensi sudah terpasang pada workspace ini:
+## Menjalankan
 
 ```sh
+composer install
 php artisan serve
 ```
 
-Buka http://127.0.0.1:8000 dan klik **Buat campaign**.
+Untuk checkout baru, salin `.env.example` ke `.env` dan jalankan `php artisan key:generate`. Buka http://127.0.0.1:8000/campaigns. UI tidak memerlukan database atau build npm.
 
-Untuk checkout baru: jalankan `composer install`, salin `.env.example` ke `.env`, lalu `php artisan key:generate` dan `php artisan serve`. Tidak perlu npm build atau database untuk UI.
+## Struktur Blade
 
-## Fitur UI
+```text
+resources/views/
+├── layouts/admin.blade.php
+├── partials/
+│   ├── sidebar.blade.php
+│   ├── header.blade.php
+│   ├── footer.blade.php
+│   ├── feedback.blade.php
+│   ├── delete-dialog.blade.php
+│   └── whatsapp-preview.blade.php
+├── campaigns/
+├── payment-setups/
+├── whatsapp-templates/
+├── coupon-templates/
+├── overview/index.blade.php
+├── payments/index.blade.php
+├── audiences/index.blade.php
+├── reports/index.blade.php
+├── settings/index.blade.php
+└── payment-checkout/show.blade.php
+```
 
-- Daftar campaign, filter status, pencarian, detail, ekspor CSV data contoh.
-- Form campaign satu halaman tanpa stepper, dengan review.
-- Menu **Setup Kupon & Reward** (`/#coupon-templates`) menyediakan daftar serta halaman buat/edit dengan live preview WhatsApp. Campaign hanya memilih template kupon pada bagian **Setelah pembayaran berhasil**; merchant, reward, kuota, masa berlaku, syarat, pesan, dan CTA diatur di menu terpisah tersebut.
-- Menu Template WhatsApp dengan halaman buat/edit tersendiri dan live preview WhatsApp di samping form (responsif). URL demo: `/#templates/create`. Campaign hanya memilih template yang tersedia; preview mengikuti template terpilih.
-- Setiap template mendukung maksimal 2 CTA, masing-masing berisi nama tombol dan URL HTTP/HTTPS. Tombol dapat ditambah/dihapus, tampil pada preview template dan campaign, dan membuka URL di tab baru. URL bawaan menggunakan example.com sebagai ilustrasi.
-- CTA pertama pada template pengingat wajib menuju pembayaran. Menu **Setup Pembayaran** (`/#payment-setups`) menyediakan daftar, form buat/edit, dan generate link checkout demo. CTA pada Template WhatsApp memilih setup pembayaran; campaign hanya memilih template. Placeholder `{{payment_url}}` otomatis diganti link setup terpilih. CTA kedua tetap opsional. Link demo menyertakan konfigurasi contoh agar preview bisa dibuka di tab baru, tanpa integrasi Midtrans atau penyimpanan backend.
-- Pilihan audience, jadwal broadcast, metode pembayaran, masa berlaku, merchant, kuota, syarat kupon.
-- Halaman overview, pembayaran, audience, laporan, pengaturan.
+Empat menu yang dapat dikelola (`campaigns`, `payment-setups`, `whatsapp-templates`, `coupon-templates`) masing-masing mempunyai:
 
-UI saja, seluruh data adalah ilustrasi. Tidak ada pengiriman WhatsApp, pemrosesan pembayaran, autentikasi, integrasi API, atau penyimpanan bisnis. Input form campaign berada di memori browser dan hilang saat refresh. File CSV audience hanya dipilih, tidak diunggah atau diproses. Simpan draft merupakan interaksi demo.
+- `index.blade.php`: daftar.
+- `create.blade.php`: halaman buat.
+- `edit.blade.php`: halaman edit.
+- `show.blade.php`: halaman detail.
+- `_form.blade.php`: form bersama untuk create/edit.
+- `_delete.blade.php`: konfirmasi hapus dari halaman detail.
 
-## Berkas utama
+Template WhatsApp juga memiliki `_cta.blade.php` untuk baris input CTA yang berulang. Menu ringkasan/transaksi hanya mempunyai view baca sesuai fungsinya.
 
-- `routes/web.php`
-- `resources/views/admin.blade.php`
-- `public/css/admin.css`
-- `public/js/admin.js`
-- `public/css/refinements.css`: sistem visual admin, form, navigasi, tabel, dan layout responsif.
-- `public/js/ui.js`: ikon SVG lokal konsisten serta label aksesibilitas navigasi/filter.
+## Route
 
-Navigasi dikelompokkan menjadi Operasional, Persiapan Campaign, dan Preferensi. Alur persiapan: Setup Pembayaran → Template WhatsApp (CTA pembayaran) → Template Kupon → Campaign. Campaign tetap satu halaman, tanpa stepper dan tanpa mengatur ulang pembayaran atau kupon.
+Setiap menu yang dapat dikelola memakai URL dan named route Laravel:
 
-## Verifikasi
+| Halaman | Contoh URL | Route name |
+| --- | --- | --- |
+| Daftar | `/payment-setups` | `payment-setups.index` |
+| Buat | `/payment-setups/create` | `payment-setups.create` |
+| Edit | `/payment-setups/{recordId}/edit` | `payment-setups.edit` |
+| Detail / hapus | `/payment-setups/{recordId}` | `payment-setups.show` |
 
-`php artisan test`, `php artisan view:cache`, dan `node --check public/js/admin.js`.
+Pola yang sama berlaku untuk campaign, template WhatsApp, dan template kupon. Root `/` mengarah ke `/campaigns`. Preview link pembayaran menggunakan `/payment-preview?setup=...`.
 
-Render Laravel dan sintaks telah diperiksa. Pemeriksaan visual browser belum dilakukan. Google Fonts opsional dengan fallback sans-serif.
+## Flow UI
 
-Regresi tombol buat telah diverifikasi di browser Edge headless: membuat/menyimpan pembayaran, template WhatsApp, template kupon, dan memilih template baru di campaign. Untuk mengulang, pasang `playwright` lokal (`npm install --no-save --package-lock=false playwright`), jalankan Laravel di port 8000, lalu `node tests/browser-create-flows.cjs`.
+1. Setup Pembayaran: nama pembayaran, nominal rupiah, metode, dan masa berlaku.
+2. Template WhatsApp: isi pesan dan maksimal 2 CTA. CTA pertama wajib memilih nama pembayaran; link terisi otomatis. CTA kedua opsional.
+3. Template Kupon: merchant, reward, kuota, masa berlaku, syarat, pesan WhatsApp biasa, dan CTA kupon.
+4. Campaign: satu halaman tanpa stepper. Pilih template WhatsApp, file audience, tanggal/waktu pengiriman WIB, dan kupon yang dipakai setelah pembayaran berhasil.
+
+## Batas demo
+
+Tidak ada autentikasi, pengiriman WhatsApp, upload CSV, pemrosesan transaksi, atau integrasi API. Create/edit/delete disimulasikan memakai `sessionStorage` browser agar data bertahan saat berpindah route dan refresh pada sesi tab yang sama. Menutup sesi tab mengakhiri data demo. Hapus data yang masih dirujuk template/campaign diblokir agar relasi demo tetap konsisten.
+
+`public/js/admin-data.js` berisi fixture, `public/js/admin-app.js` mengatur interaksi UI dan state demo, dan `public/js/ui.js` menyediakan ikon SVG lokal. `public/css/admin.css` dan `refinements.css` mengatur desain responsif.
+
+## Tutorial perkenalan
+
+Klik **Panduan** di header atau **Buka panduan** di sidebar untuk tutorial animasi 7 langkah. Tutorial menyorot menu terkait, mendukung Lanjut/Kembali/Lewati/Selesai, Escape, tombol panah, tampilan mobile, dan preferensi reduced motion. Tutorial tidak berpindah halaman atau mengubah draft form.
+
+- `resources/views/partials/tutorial.blade.php`: dialog panduan.
+- `public/js/tutorial.js`: konten langkah, navigasi, dan posisi sorotan.
+- `public/css/tutorial.css`: animasi dan layout.
+- Jalankan `npm run test:tutorial` dengan server Laravel aktif untuk mengulang pengujian browser.
+
+## Pemeriksaan aplikasi
+
+```sh
+php artisan test
+php artisan view:cache
+node --check public/js/admin-app.js
+```
+
+Pengujian browser menggunakan Microsoft Edge yang terpasang dan server Laravel aktif pada port 8000:
+
+```sh
+npm install
+npm run test:browser
+```
+
+Set `TEST_URL` jika server menggunakan URL lain. Tes browser mencakup seluruh menu, CRUD keempat modul, preview nominal, relasi CTA/template/campaign, maksimum dua CTA, penghapusan data terpakai, link invalid, data tidak ditemukan, layout mobile, dan error JavaScript. Test Laravel memeriksa route, view, dan literal variabel WhatsApp.
